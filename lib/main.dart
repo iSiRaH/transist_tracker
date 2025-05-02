@@ -1,3 +1,4 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:transist_tracker/pages/favourites_page.dart';
 import 'package:transist_tracker/pages/home_page.dart';
@@ -33,45 +34,38 @@ class _MyAppState extends State<MyApp> {
       title: "Transist tracker",
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _currentIndex,
-          selectedItemColor: Colors.blue,
-          unselectedItemColor: Colors.black,
+        bottomNavigationBar: CurvedNavigationBar(
+          index: _currentIndex,
           onTap: (value) {
             setState(() {
               _currentIndex = value;
             });
           },
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.schedule,
-              ),
-              label: "Time Table",
+          buttonBackgroundColor: Colors.blue,
+          backgroundColor: Colors.white,
+          color: Colors.blue,
+          animationCurve: Curves.easeIn,
+          animationDuration: Duration(milliseconds: 600),
+          items: <Widget>[
+            Icon(
+              Icons.schedule,
+              size: 40,
             ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.search,
-              ),
-              label: "Search",
+            Icon(
+              Icons.search,
+              size: 40,
             ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.map,
-              ),
-              label: "Map",
+            Icon(
+              Icons.map,
+              size: 40,
             ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.favorite,
-              ),
-              label: "Favourites",
+            Icon(
+              Icons.favorite,
+              size: 40,
             ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.person,
-              ),
-              label: "Profile",
+            Icon(
+              Icons.person,
+              size: 40,
             ),
           ],
         ),
