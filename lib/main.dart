@@ -18,12 +18,12 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  int _currentIndex = 2;
+  int _currentIndex = 0;
 
   final List<Widget> _pages = [
+    HomePage(),
     TimeTablePage(),
     SearchPage(),
-    HomePage(),
     FavouritesPage(),
     ProfilePage(),
   ];
@@ -47,25 +47,37 @@ class _MyAppState extends State<MyApp> {
           animationCurve: Curves.easeIn,
           animationDuration: Duration(milliseconds: 600),
           items: <Widget>[
-            Icon(
-              Icons.schedule,
-              size: 40,
+            SizedBox(
+              height: 40,
+              width: 40,
+              child: Image.asset(
+                "assets/icons/HomeIcon.png",
+                fit: BoxFit.contain,
+              ),
             ),
-            Icon(
-              Icons.search,
-              size: 40,
+            SizedBox(
+              height: 40,
+              width: 40,
+              child: Image.asset(
+                "assets/icons/TicketIcon.png",
+                fit: BoxFit.contain,
+              ),
             ),
-            Icon(
-              Icons.map,
-              size: 40,
+            SizedBox(
+              height: 40,
+              width: 40,
+              child: Image.asset(
+                "assets/icons/WalletIcon.png",
+                fit: BoxFit.contain,
+              ),
             ),
-            Icon(
-              Icons.favorite,
-              size: 40,
-            ),
-            Icon(
-              Icons.person,
-              size: 40,
+            SizedBox(
+              height: 40,
+              width: 40,
+              child: Image.asset(
+                "assets/icons/SettingsIcon.png",
+                fit: BoxFit.contain,
+              ),
             ),
           ],
         ),
