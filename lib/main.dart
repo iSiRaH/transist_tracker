@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:transist_tracker/pages/signup_success_page.dart';
 import 'package:transist_tracker/pages/welcome_page.dart';
 
 void main() {
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "Transist Tracker",
       debugShowCheckedModeBanner: false,
-      home: WelcomePage(),
+      home: SignupSuccessPage(),
     );
   }
 }
