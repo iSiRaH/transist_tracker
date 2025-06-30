@@ -1,24 +1,7 @@
 import 'package:flutter/material.dart';
 
-
-
-void main() {
-  runApp(const ConfirmationApp());
-}
-
-class ConfirmationApp extends StatelessWidget {
-  const ConfirmationApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: BookingConfirmationPage(),
-    );
-  }
-}
-
-class BookingConfirmationPage extends StatelessWidget {
-  const BookingConfirmationPage({super.key});
+class PaymentSuccessPage extends StatelessWidget {
+  const PaymentSuccessPage({super.key});
 
   @override
   Widget build(BuildContext context) {
