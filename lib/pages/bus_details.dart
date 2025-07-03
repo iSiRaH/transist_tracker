@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'bus_card.dart'; // Add this at the top
 void main() {
   runApp(const BusBookingApp());
 }
@@ -43,7 +43,7 @@ class BusBookingHomePage extends StatelessWidget {
                     Text("Hello Rose!",
                         style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                     Text("Select your bus!",
-                        style: TextStyle(color: Colors.orange, fontSize: 14)),
+                        style: TextStyle(color: Color(0xffFFD800), fontSize: 14)),
                   ],
                 ),
                 const Spacer(),
@@ -52,9 +52,98 @@ class BusBookingHomePage extends StatelessWidget {
                 const Icon(Icons.notifications_none, size: 26),
               ],
             ),
-           // const SizedBox(height: 20),
+           const SizedBox(height: 20),
 
-           
+           Container(
+            padding: const EdgeInsets.all(16),
+            margin: const EdgeInsets.only(bottom: 12),
+            decoration: BoxDecoration(
+              color:  Color(0xffFFD800),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Column(
+              children: [
+              
+                Image.asset('assets/images/Bus_Image.png',width: 150, height: 75, ),
+                
+                const SizedBox(height: 12,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    const Text("Lorem", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                    CircleAvatar(
+                      backgroundColor: Colors.black,
+                      child: Icon(Icons.swap_horiz, color: Colors.white, ),
+                    ),
+                    const Text("Lorem", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                  ],
+                ),
+                const SizedBox(height: 12,),
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 12, horizontal: 40),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                    borderRadius: BorderRadius.circular(12)
+
+                  ),
+                  child: const Text("08 th - Dec - 2024 | Sunday", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),),
+                ),
+
+                const SizedBox(height: 12,),
+             
+                  
+
+
+
+                
+                
+               
+              ],
+            ),
+           ),
+                        
+            BusCard(
+              name: "Silva Travels",
+              type: "A/C Sleeper (2+2)",
+              time: "9:00 AM - 9:45 AM",
+              price: "\$200",
+              duration: "45 Min",
+              seatsLeft: 15,
+              seatColor: Colors.green,
+            ),
+
+            BusCard(
+              name: "Silva Travels",
+              type: "A/C Sleeper (2+2)",
+              time: "9:00 AM - 9:45 AM",
+              price: "\$200",
+              duration: "45 Min",
+              seatsLeft: 15,
+              seatColor: Colors.green,
+            ),
+
+
+            BusCard(
+              name: "Silva Travels",
+              type: "A/C Sleeper (2+2)",
+              time: "9:00 AM - 9:45 AM",
+              price: "\$200",
+              duration: "45 Min",
+              seatsLeft: 15,
+              seatColor: Colors.green,
+            ),
+
+             BusCard(
+              name: "Silva Travels",
+              type: "A/C Sleeper (2+2)",
+              time: "9:00 AM - 9:45 AM",
+              price: "\$200",
+              duration: "45 Min",
+              seatsLeft: 15,
+              seatColor: Colors.green,
+            ),
+
+          
           ],
          ),
       ),
