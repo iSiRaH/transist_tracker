@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'bus_card.dart'; // Add this at the top
-void main() {
-  runApp(const BusBookingApp());
-}
+import 'bus_card.dart'; 
+// void main() {
+//   runApp(const BusBookingApp());
+// }
 
 class BusBookingApp extends StatelessWidget {
   const BusBookingApp({super.key});
