@@ -1,25 +1,8 @@
 import 'package:flutter/material.dart';
-import 'bus_card.dart'; 
-// void main() {
-//   runApp(const BusBookingApp());
-// }
+import '../widgets/reusable/bus_details_page/bus_card.dart';
 
-class BusBookingApp extends StatelessWidget {
-  const BusBookingApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Bus Booking',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.yellow),
-      home: const BusBookingHomePage(),
-    );
-  }
-}
-
-class BusBookingHomePage extends StatelessWidget {
-  const BusBookingHomePage({super.key});
+class BusDetailsPage extends StatelessWidget {
+  const BusDetailsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -90,14 +73,6 @@ class BusBookingHomePage extends StatelessWidget {
                 ),
 
                 const SizedBox(height: 12,),
-             
-                  
-
-
-
-                
-                
-               
               ],
             ),
            ),
@@ -142,8 +117,6 @@ class BusBookingHomePage extends StatelessWidget {
               seatsLeft: 15,
               seatColor: Colors.green,
             ),
-
-          
           ],
          ),
       ),
