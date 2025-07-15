@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:transist_tracker/utils/colors.dart';
+import '../widgets/reusable/find_bus_page/destination_input_field.dart';
 void main() {
   runApp(const FindBusPage());
 }
@@ -63,42 +63,13 @@ class BusBookingHomePage extends StatelessWidget {
             ),
             child: Column(
               children: [
-              
-                  TextField(
-                    decoration: InputDecoration(
-                      hintText: "Boarding From",
-                      hintStyle: TextStyle(
-                        color: mainAsh,
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
-                      filled: true, 
-                      fillColor: Colors.white, 
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                        borderSide: BorderSide(
-                          color: Colors.white,
-                          width: 2.0,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                        borderSide: BorderSide(
-                          color: Colors.white,
-                          width: 2.0,
-                        ),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                        borderSide: BorderSide(
-                          color: Colors.white,
-                          width: 2.0,
-                        ),
-                      ),
-                    ),
+               
+                DestinationInputField(
+                    hintname: "Boarding From",
                   ),
-
                 
                 const SizedBox(height: 12,),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -110,53 +81,15 @@ class BusBookingHomePage extends StatelessWidget {
                     const Text("Lorem", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
                   ],
                 ),
+
                 const SizedBox(height: 12,),
-                
-                TextField(
-                    decoration: InputDecoration(
-                      hintText: "Where are you going",
-                      hintStyle: TextStyle(
-                        color: mainAsh,
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
-                      filled: true, 
-                      fillColor: Colors.white, 
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                        borderSide: BorderSide(
-                          color: Colors.white,
-                          width: 2.0,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                        borderSide: BorderSide(
-                          color: Colors.white,
-                          width: 2.0,
-                        ),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                        borderSide: BorderSide(
-                          color: Colors.white,
-                          width: 2.0,
-                        ),
-                      ),
-                    ),
-                  ),
-                  
 
-
-
-                
-                
-               
+                DestinationInputField(
+                  hintname: "Where are you going",
+                ), 
               ],
             ),
            ),
-                        
-          
-          
           ],
          ),
       ),
