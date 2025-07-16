@@ -1,25 +1,9 @@
 import 'package:flutter/material.dart';
 import '../widgets/reusable/find_bus_page/destination_input_field.dart';
-void main() {
-  runApp(const FindBusPage());
-}
+import '../widgets/reusable/find_bus_page/border_component.dart';
 
 class FindBusPage extends StatelessWidget {
   const FindBusPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Bus find',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.yellow),
-      home: const BusBookingHomePage(),
-    );
-  }
-}
-
-class BusBookingHomePage extends StatelessWidget {
-  const BusBookingHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +26,7 @@ class BusBookingHomePage extends StatelessWidget {
                   children: const [
                     Text("Hello Rose!",
                         style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                    Text("Select your bus!",
+                    Text("Where you want to go?",
                         style: TextStyle(color: Color(0xffFFD800), fontSize: 14)),
                   ],
                 ),
@@ -68,24 +52,48 @@ class BusBookingHomePage extends StatelessWidget {
                     hintname: "Boarding From",
                   ),
                 
-                const SizedBox(height: 12,),
+                const SizedBox(height: 2,),
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    const Text("Lorem", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                  children: [                   
                     CircleAvatar(
                       backgroundColor: Colors.black,
-                      child: Icon(Icons.swap_horiz, color: Colors.white, ),
-                    ),
-                    const Text("Lorem", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                      child: Icon(Icons.swap_horiz, color: Colors.white,),
+                    ),                 
                   ],
                 ),
 
-                const SizedBox(height: 12,),
+                const SizedBox(height: 2,),
 
                 DestinationInputField(
                   hintname: "Where are you going",
+                ), 
+
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      BorderComponent(name: "Today", icons_name: Icons.today),
+                      BorderComponent(name: "Tomorrow", icons_name: Icons.calendar_today),
+                      BorderComponent(name: "Other", icons_name:Icons.more_horiz),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 16,),
+
+                ElevatedButton(
+                  onPressed: (){
+                    print("object");
+                    },
+                    style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 15.0), 
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(22), 
+                    ),
+                  ),
+                    child: Text("Find Buses", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
                 ), 
               ],
             ),

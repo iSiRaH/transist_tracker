@@ -11,7 +11,6 @@ class DestinationInputField extends StatelessWidget {
     return Container(
       
       padding:const EdgeInsets.all(16.0),
-      margin: const EdgeInsets.only(bottom:18 ),
       child: TextField(
         keyboardType: TextInputType.name,
         decoration: InputDecoration(
