@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:transist_tracker/pages/login_page.dart';
-import 'package:transist_tracker/pages/signup_success_page.dart';
-import 'package:transist_tracker/pages/welcome_page.dart';
-import 'package:transist_tracker/pages/payment_success_page.dart';
+import 'package:transist_tracker/pages/bus_details_page.dart';
 
 void main() {
   runApp(const MyApp());
