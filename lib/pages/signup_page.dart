@@ -1,24 +1,26 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:transist_tracker/pages/signup_page.dart';
+import 'package:transist_tracker/pages/login_page.dart';
 import 'package:transist_tracker/pages/signup_success_page.dart';
 import 'package:transist_tracker/utils/colors.dart';
 import 'package:transist_tracker/widgets/reusable/input_field.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+class SignupPage extends StatelessWidget {
+  const SignupPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 35.0),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 35,
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Login",
+                "Create an  account",
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -26,7 +28,7 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 25,
+                height: 15,
               ),
               Text(
                 "Welcome back to the app",
@@ -36,23 +38,31 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: 15,
+              ),
+              InputField(
+                labelName: "Name",
+                hintText: "John Doe",
+              ),
+              SizedBox(
+                height: 15,
               ),
               InputField(
                 labelName: "Email Address",
                 hintText: "hello@example.com",
               ),
               SizedBox(
-                height: 25,
+                height: 15,
               ),
               InputField(
                 labelName: "Password",
                 hintText: "...............",
               ),
               SizedBox(
-                height: 25,
+                height: 15,
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Checkbox(
                     value: true,
@@ -61,11 +71,15 @@ class LoginPage extends StatelessWidget {
                   SizedBox(
                     width: 10,
                   ),
-                  Text(
-                    "Keep me signed in",
-                    style: TextStyle(
-                      color: inputTextColor,
-                      fontSize: 14,
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.65,
+                    child: Text(
+                      "By continuing, you agree to our terms of service. ",
+                      softWrap: true,
+                      style: TextStyle(
+                        color: inputTextColor,
+                        fontSize: 14,
+                      ),
                     ),
                   ),
                 ],
@@ -73,8 +87,8 @@ class LoginPage extends StatelessWidget {
               SizedBox(
                 height: 15,
               ),
-              GestureDetector(
-                onTap: () {
+              ElevatedButton(
+                onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -82,31 +96,27 @@ class LoginPage extends StatelessWidget {
                     ),
                   );
                 },
-                child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: mainYellow,
-                    borderRadius: BorderRadius.circular(30.0),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: mainYellow,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 14,
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 14.0,
-                    ),
-                    child: Center(
-                      child: Text(
-                        "Login",
-                        style: TextStyle(
-                          color: mainBlack,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16,
-                        ),
+                  child: Center(
+                    child: Text(
+                      "Sign up",
+                      style: TextStyle(
+                        color: mainBlack,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
                       ),
                     ),
                   ),
                 ),
               ),
               SizedBox(
-                height: 30,
+                height: 15,
               ),
               Row(
                 children: [
@@ -120,7 +130,7 @@ class LoginPage extends StatelessWidget {
                     width: 10,
                   ),
                   Text(
-                    "or sign in with",
+                    "or sign up with",
                     style: TextStyle(
                       color: inputTextColor,
                       fontSize: 12,
@@ -138,7 +148,7 @@ class LoginPage extends StatelessWidget {
                 ],
               ),
               SizedBox(
-                height: 25,
+                height: 15,
               ),
               Container(
                 width: double.infinity,
@@ -172,24 +182,45 @@ class LoginPage extends StatelessWidget {
               SizedBox(
                 height: 70,
               ),
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SignupPage(),
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: "Already have an account? ",
+                      style: TextStyle(
+                        color: mainYellow.withOpacity(0.8),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
+                      ),
                     ),
-                  );
-                },
-                child: Text(
-                  "Create an account",
-                  style: TextStyle(
-                    color: mainYellow,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 16,
-                  ),
+                    TextSpan(
+                      text: "Sign in here",
+                      style: TextStyle(
+                        color: mainYellow,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                      ),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LoginPage(),
+                            ),
+                          );
+                        },
+                    ),
+                  ],
                 ),
               ),
+              // Text(
+              //   "Already have an account? Sign in here",
+              //   style: TextStyle(
+              //     color: mainYellow,
+              //     fontWeight: FontWeight.w500,
+              //     fontSize: 16,
+              //   ),
+              // ),
             ],
           ),
         ),
