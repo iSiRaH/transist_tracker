@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:transist_tracker/pages/bus_details_page.dart';
+import 'package:transist_tracker/pages/find_bus_page.dart';
 
 void main() {
   runApp(const MyApp());
