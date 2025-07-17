@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:transist_tracker/pages/signup_page.dart';
+import 'package:transist_tracker/pages/signup_success_page.dart';
 import 'package:transist_tracker/utils/colors.dart';
 import 'package:transist_tracker/widgets/reusable/login_page/input_field.dart';
 
@@ -71,23 +73,33 @@ class LoginPage extends StatelessWidget {
               SizedBox(
                 height: 15,
               ),
-              Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: mainYellow,
-                  borderRadius: BorderRadius.circular(30.0),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 14.0,
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SignupSuccessPage(),
+                    ),
+                  );
+                },
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: mainYellow,
+                    borderRadius: BorderRadius.circular(30.0),
                   ),
-                  child: Center(
-                    child: Text(
-                      "Login",
-                      style: TextStyle(
-                        color: mainBlack,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 14.0,
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Login",
+                        style: TextStyle(
+                          color: mainBlack,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                   ),
@@ -160,12 +172,22 @@ class LoginPage extends StatelessWidget {
               SizedBox(
                 height: 70,
               ),
-              Text(
-                "Create an account",
-                style: TextStyle(
-                  color: mainYellow,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 16,
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SignupPage(),
+                    ),
+                  );
+                },
+                child: Text(
+                  "Create an account",
+                  style: TextStyle(
+                    color: mainYellow,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16,
+                  ),
                 ),
               ),
             ],
