@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "Transist Tracker",
       debugShowCheckedModeBanner: false,
-      home: FindBusPage(),
+      home: WelcomePage(),
     );
   }
 }
