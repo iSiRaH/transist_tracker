@@ -35,7 +35,7 @@ class SignupSuccessPage extends StatelessWidget {
               height: 20,
             ),
             Text(
-              "We've sent you a verification email, pleasecheck your inbox and follow theinstructions to verify your account.",
+              "We've sent you a verification email, please check your inbox and follow the instructions to verify your account.",
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16,

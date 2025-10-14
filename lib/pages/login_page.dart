@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:transist_tracker/pages/bus_details_page.dart';
 import 'package:transist_tracker/pages/signup_page.dart';
 import 'package:transist_tracker/pages/signup_success_page.dart';
 import 'package:transist_tracker/utils/colors.dart';
@@ -78,7 +79,7 @@ class LoginPage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => SignupSuccessPage(),
+                      builder: (context) => BusDetailsPage(),
                     ),
                   );
                 },
