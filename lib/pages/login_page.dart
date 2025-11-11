@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:transist_tracker/pages/bus_details_page.dart';
 import 'package:transist_tracker/pages/signup_page.dart';
-import 'package:transist_tracker/pages/signup_success_page.dart';
 import 'package:transist_tracker/utils/colors.dart';
 import 'package:transist_tracker/widgets/reusable/login_page/input_field.dart';
 
