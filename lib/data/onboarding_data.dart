@@ -8,12 +8,12 @@ class OnboardingData {
             "Your hassle-free bus seat bookingsolution! Easily reserve your seat anytime,anywhere with just a few taps.",
         imageUrl: "assets/images/Bus_Image.png"),
     OnboardingModel(
-        title: "Welcome to the app",
+        title: "Find routes and stops easily",
         description:
             "Your hassle-free bus seat bookingsolution! Easily reserve your seat anytime,anywhere with just a few taps.",
         imageUrl: "assets/images/Bus_Image.png"),
     OnboardingModel(
-        title: "Welcome to the app",
+        title: "Track transport live",
         description:
             "Your hassle-free bus seat bookingsolution! Easily reserve your seat anytime,anywhere with just a few taps.",
         imageUrl: "assets/images/Bus_Image.png"),
