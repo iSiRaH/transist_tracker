@@ -27,12 +27,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Setup Java
-      - name: Set up JDK 8
+      # Setup Java (AGP 8.4.1 requires JDK 17+)
+      - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '8'
+          java-version: '17'
 
       # Setup Flutter
       - name: Setup Flutter
@@ -51,7 +51,7 @@ jobs:
           build-mode: manual
           queries: security-extended,security-and-quality
 
-      # 🔥 Manual build step (THIS FIXES YOUR ERROR)
+      # Manual build step for Flutter Android
       - name: Build Android
         run: flutter build apk --debug
 
