@@ -4,9 +4,19 @@ import 'package:transist_tracker/utils/colors.dart';
 class InputField extends StatelessWidget {
   final String labelName;
   final String hintText;
+  final TextEditingController? controller;
+  final bool obscureText;
+  final TextInputType keyboardType;
+  final TextInputAction? textInputAction;
 
   const InputField(
-      {super.key, required this.labelName, required this.hintText});
+      {super.key,
+      required this.labelName,
+      required this.hintText,
+      this.controller,
+      this.obscureText = false,
+      this.keyboardType = TextInputType.text,
+      this.textInputAction});
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +34,10 @@ class InputField extends StatelessWidget {
           height: 8,
         ),
         TextField(
+          controller: controller,
+          obscureText: obscureText,
+          keyboardType: keyboardType,
+          textInputAction: textInputAction,
           decoration: InputDecoration(
             hintText: hintText,
             hintStyle: TextStyle(

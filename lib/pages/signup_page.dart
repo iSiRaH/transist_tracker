@@ -1,15 +1,34 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:transist_tracker/pages/login_page.dart';
-import 'package:transist_tracker/pages/signup_success_page.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:transist_tracker/providers/auth_provider.dart';
 import 'package:transist_tracker/utils/colors.dart';
 import 'package:transist_tracker/widgets/reusable/login_page/input_field.dart';
 
-class SignupPage extends StatelessWidget {
+class SignupPage extends ConsumerStatefulWidget {
   const SignupPage({super.key});
 
   @override
+  ConsumerState<SignupPage> createState() => _SignupPageState();
+}
+
+class _SignupPageState extends ConsumerState<SignupPage> {
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final authState = ref.watch(authProvider);
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -45,6 +64,8 @@ class SignupPage extends StatelessWidget {
                 InputField(
                   labelName: "Name",
                   hintText: "John Doe",
+                  controller: _nameController,
+                  textInputAction: TextInputAction.next,
                 ),
                 SizedBox(
                   height: 15,
@@ -52,6 +73,9 @@ class SignupPage extends StatelessWidget {
                 InputField(
                   labelName: "Email Address",
                   hintText: "hello@example.com",
+                  controller: _emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.next,
                 ),
                 SizedBox(
                   height: 15,
@@ -59,6 +83,9 @@ class SignupPage extends StatelessWidget {
                 InputField(
                   labelName: "Password",
                   hintText: "...............",
+                  controller: _passwordController,
+                  obscureText: true,
+                  textInputAction: TextInputAction.done,
                 ),
                 SizedBox(
                   height: 15,
@@ -90,14 +117,15 @@ class SignupPage extends StatelessWidget {
                   height: 15,
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SignupSuccessPage(),
-                      ),
-                    );
-                  },
+                  onPressed: authState.isSubmitting
+                      ? null
+                      : () {
+                          ref.read(authProvider.notifier).signup(
+                                name: _nameController.text.trim(),
+                                email: _emailController.text.trim(),
+                                password: _passwordController.text,
+                              );
+                        },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: mainYellow,
                   ),
@@ -106,17 +134,36 @@ class SignupPage extends StatelessWidget {
                       vertical: 14,
                     ),
                     child: Center(
-                      child: Text(
-                        "Sign up",
-                        style: TextStyle(
-                          color: mainBlack,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16,
-                        ),
-                      ),
+                      child: authState.isSubmitting
+                          ? SizedBox(
+                              height: 18,
+                              width: 18,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: mainBlack,
+                              ),
+                            )
+                          : Text(
+                              "Sign up",
+                              style: TextStyle(
+                                color: mainBlack,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                              ),
+                            ),
                     ),
                   ),
                 ),
+                if (authState.errorMessage != null) ...[
+                  SizedBox(height: 12),
+                  Text(
+                    authState.errorMessage!,
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontSize: 13,
+                    ),
+                  ),
+                ],
                 SizedBox(
                   height: 15,
                 ),
@@ -204,12 +251,7 @@ class SignupPage extends StatelessWidget {
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => LoginPage(),
-                              ),
-                            );
+                            ref.read(authProvider.notifier).showLogin();
                           },
                       ),
                     ],
