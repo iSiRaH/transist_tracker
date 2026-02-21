@@ -1,4 +1,4 @@
-name: "CodeQL - Flutter"
+name: "CodeQL - Android (Java/Kotlin)"
 
 on:
   push:
