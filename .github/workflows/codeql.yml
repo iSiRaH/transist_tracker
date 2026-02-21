@@ -7,7 +7,7 @@ on:
     branches: [ "master", "main" ]
 
 jobs:
-  analyze:
+  analyze-android:
     name: Analyze (Android - Java/Kotlin)
     runs-on: ubuntu-latest
 
@@ -15,13 +15,6 @@ jobs:
       security-events: write
       contents: read
       actions: read
-
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - language: java-kotlin
-            build-mode: manual
 
     steps:
       - name: Checkout repository
@@ -51,10 +44,47 @@ jobs:
           build-mode: manual
           queries: security-extended,security-and-quality
 
-      # 🔥 Manual build step (THIS FIXES YOUR ERROR)
       - name: Build Android
         run: flutter build apk --debug
 
       # Analyze
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v4
+        with:
+          category: "/language:java-kotlin"
+
+  analyze-dart:
+    name: Analyze (Dart/Flutter)
+    runs-on: ubuntu-latest
+
+    permissions:
+      security-events: write
+      contents: read
+      actions: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Setup Flutter (includes Dart SDK)
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          cache: true
+
+      - name: Flutter Pub Get
+        run: flutter pub get
+
+      # Initialize CodeQL for Dart
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          languages: dart
+          build-mode: none
+          queries: security-extended,security-and-quality
+
+      # Analyze
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v4
+        with:
+          category: "/language:dart"
