@@ -55,7 +55,7 @@ jobs:
     # Manual Build Steps for Flutter Native Components
     - name: Build Android (Java-Kotlin)
       if: matrix.language == 'java-kotlin'
-      run: flutter build apk --debug --summary-only
+      run: flutter build apk --debug
 
     - name: Build iOS (Swift)
       if: matrix.language == 'swift'
