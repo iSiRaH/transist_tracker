@@ -1,60 +1,67 @@
-name: "CodeQL - Flutter"
+name: "CodeQL Analysis (Flutter)"
 
 on:
   push:
-    branches: [ "master", "main" ]
+    branches: [ "main", "master" ]
   pull_request:
-    branches: [ "master", "main" ]
+    branches: [ "main", "master" ]
+  schedule:
+    - cron: '0 0 * * 1' # Runs every Monday at midnight
 
 jobs:
   analyze:
-    name: Analyze (Android - Java/Kotlin)
-    runs-on: ubuntu-latest
-
+    name: Analyze (${{ matrix.language }})
+    runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
     permissions:
       security-events: write
-      contents: read
       actions: read
+      contents: read
 
     strategy:
       fail-fast: false
       matrix:
+        # We analyze the native side of Flutter: Java/Kotlin and Swift
         include:
           - language: java-kotlin
             build-mode: manual
+          - language: swift
+            build-mode: manual
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-      # Setup Java
-      - name: Set up JDK 8
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '8'
+    - name: Setup Java
+      if: matrix.language == 'java-kotlin'
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
 
-      # Setup Flutter
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          cache: true
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        channel: 'stable'
 
-      - name: Flutter Pub Get
-        run: flutter pub get
+    - name: Install Dependencies
+      run: flutter pub get
 
-      # Initialize CodeQL
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v4
-        with:
-          languages: java-kotlin
-          build-mode: manual
-          queries: security-extended,security-and-quality
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v3
+      with:
+        languages: ${{ matrix.language }}
+        build-mode: ${{ matrix.build-mode }}
 
-      # 🔥 Manual build step (THIS FIXES YOUR ERROR)
-      - name: Build Android
-        run: flutter build apk --debug
+    # Manual Build Steps for Flutter Native Components
+    - name: Build Android (Java-Kotlin)
+      if: matrix.language == 'java-kotlin'
+      run: flutter build apk --debug --summary-only
 
-      # Analyze
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v4
+    - name: Build iOS (Swift)
+      if: matrix.language == 'swift'
+      run: flutter build ios --debug --no-codesign
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v3
+      with:
+        category: "/language:${{matrix.language}}"
