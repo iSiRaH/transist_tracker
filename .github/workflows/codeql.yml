@@ -10,45 +10,32 @@ on:
 
 jobs:
   analyze:
-    name: Analyze (${{ matrix.language }})
-    runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
+    name: Analyze (java-kotlin)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    concurrency:
+      group: codeql-${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
     permissions:
       security-events: write
       packages: read
       actions: read
       contents: read
 
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - language: dart
-            build-mode: autobuild
-          # Include if your Flutter project has native Android code
-          - language: java-kotlin
-            build-mode: autobuild
-          # Include if your Flutter project has native iOS/macOS code
-          - language: swift
-            build-mode: autobuild
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Flutter setup — required before CodeQL init for Dart analysis
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: 'stable'
           channel: 'stable'
           cache: true
 
       - name: Install dependencies
         run: flutter pub get
 
-      # Required for Java/Kotlin (Android) analysis via Gradle
       - name: Setup Java
-        if: matrix.language == 'java-kotlin'
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
@@ -57,20 +44,14 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v4
         with:
-          languages: ${{ matrix.language }}
-          build-mode: ${{ matrix.build-mode }}
-          # Uncomment to add extended security queries:
-          # queries: security-extended,security-and-quality
+          languages: java-kotlin
+          build-mode: manual
 
-      - name: Build Flutter app (manual fallback)
-        if: matrix.build-mode == 'manual'
-        shell: bash
+      - name: Build Android app
         run: |
-          flutter build apk --debug        # For Android
-          # flutter build ios --no-codesign  # For iOS (macOS runner only)
-          # flutter build linux              # For Linux desktop
+          flutter build apk --debug
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v4
         with:
-          category: "/language:${{matrix.language}}"
+          category: "/language:java-kotlin"
