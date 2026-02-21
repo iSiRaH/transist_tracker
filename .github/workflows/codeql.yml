@@ -1,12 +1,12 @@
-name: "CodeQL Analysis (Flutter)"
+name: "CodeQL Advanced - Flutter"
 
 on:
   push:
-    branches: [ "main", "master" ]
+    branches: [ "master", "main" ]
   pull_request:
-    branches: [ "main", "master" ]
+    branches: [ "master", "main" ]
   schedule:
-    - cron: '0 0 * * 1' # Runs every Monday at midnight
+    - cron: '34 17 * * 2'
 
 jobs:
   analyze:
@@ -14,54 +14,63 @@ jobs:
     runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
     permissions:
       security-events: write
+      packages: read
       actions: read
       contents: read
 
     strategy:
       fail-fast: false
       matrix:
-        # We analyze the native side of Flutter: Java/Kotlin and Swift
         include:
+          - language: dart
+            build-mode: autobuild
+          # Include if your Flutter project has native Android code
           - language: java-kotlin
-            build-mode: manual
+            build-mode: autobuild
+          # Include if your Flutter project has native iOS/macOS code
           - language: swift
-            build-mode: manual
+            build-mode: autobuild
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Setup Java
-      if: matrix.language == 'java-kotlin'
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'temurin'
-        java-version: '17'
+      # Flutter setup — required before CodeQL init for Dart analysis
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'stable'
+          channel: 'stable'
+          cache: true
 
-    - name: Setup Flutter
-      uses: subosito/flutter-action@v2
-      with:
-        channel: 'stable'
+      - name: Install dependencies
+        run: flutter pub get
 
-    - name: Install Dependencies
-      run: flutter pub get
+      # Required for Java/Kotlin (Android) analysis via Gradle
+      - name: Setup Java
+        if: matrix.language == 'java-kotlin'
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
 
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v3
-      with:
-        languages: ${{ matrix.language }}
-        build-mode: ${{ matrix.build-mode }}
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: ${{ matrix.build-mode }}
+          # Uncomment to add extended security queries:
+          # queries: security-extended,security-and-quality
 
-    # Manual Build Steps for Flutter Native Components
-    - name: Build Android (Java-Kotlin)
-      if: matrix.language == 'java-kotlin'
-      run: flutter build apk --debug
+      - name: Build Flutter app (manual fallback)
+        if: matrix.build-mode == 'manual'
+        shell: bash
+        run: |
+          flutter build apk --debug        # For Android
+          # flutter build ios --no-codesign  # For iOS (macOS runner only)
+          # flutter build linux              # For Linux desktop
 
-    - name: Build iOS (Swift)
-      if: matrix.language == 'swift'
-      run: flutter build ios --debug --no-codesign
-
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v3
-      with:
-        category: "/language:${{matrix.language}}"
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v4
+        with:
+          category: "/language:${{matrix.language}}"
