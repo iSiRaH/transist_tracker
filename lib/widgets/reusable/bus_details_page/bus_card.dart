@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:transist_tracker/providers/auth_provider.dart';
 
 
-class BusCard extends StatelessWidget {
+class BusCard extends ConsumerWidget {
 
   final String name;
   final String type;
@@ -24,7 +26,7 @@ class BusCard extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       margin: EdgeInsets.only(bottom: 12),
       padding: EdgeInsets.all(12),
@@ -70,7 +72,12 @@ class BusCard extends StatelessWidget {
                   Icon(Icons.center_focus_strong), 
                   Icon(Icons.history),            
                   Icon(Icons.code),               
-                  Icon(Icons.logout),  
+                  GestureDetector(
+                    onTap: () {
+                      ref.read(authProvider.notifier).logout();
+                    },
+                    child: Icon(Icons.logout),
+                  ),
                 ],
               )
             ],

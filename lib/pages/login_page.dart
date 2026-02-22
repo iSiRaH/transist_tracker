@@ -1,14 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:transist_tracker/pages/bus_details_page.dart';
-import 'package:transist_tracker/pages/signup_page.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:transist_tracker/providers/auth_provider.dart';
 import 'package:transist_tracker/utils/colors.dart';
 import 'package:transist_tracker/widgets/reusable/login_page/input_field.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
 
   @override
+  ConsumerState<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends ConsumerState<LoginPage> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final authState = ref.watch(authProvider);
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -41,6 +58,9 @@ class LoginPage extends StatelessWidget {
               InputField(
                 labelName: "Email Address",
                 hintText: "hello@example.com",
+                controller: _emailController,
+                keyboardType: TextInputType.emailAddress,
+                textInputAction: TextInputAction.next,
               ),
               SizedBox(
                 height: 25,
@@ -48,6 +68,9 @@ class LoginPage extends StatelessWidget {
               InputField(
                 labelName: "Password",
                 hintText: "...............",
+                controller: _passwordController,
+                obscureText: true,
+                textInputAction: TextInputAction.done,
               ),
               SizedBox(
                 height: 25,
@@ -74,14 +97,14 @@ class LoginPage extends StatelessWidget {
                 height: 15,
               ),
               GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => BusDetailsPage(),
-                    ),
-                  );
-                },
+                onTap: authState.isSubmitting
+                    ? null
+                    : () {
+                        ref.read(authProvider.notifier).login(
+                              email: _emailController.text.trim(),
+                              password: _passwordController.text,
+                            );
+                      },
                 child: Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
@@ -93,18 +116,37 @@ class LoginPage extends StatelessWidget {
                       vertical: 14.0,
                     ),
                     child: Center(
-                      child: Text(
-                        "Login",
-                        style: TextStyle(
-                          color: mainBlack,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16,
-                        ),
-                      ),
+                      child: authState.isSubmitting
+                          ? SizedBox(
+                              height: 18,
+                              width: 18,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: mainBlack,
+                              ),
+                            )
+                          : Text(
+                              "Login",
+                              style: TextStyle(
+                                color: mainBlack,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                              ),
+                            ),
                     ),
                   ),
                 ),
               ),
+              if (authState.errorMessage != null) ...[
+                SizedBox(height: 12),
+                Text(
+                  authState.errorMessage!,
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 13,
+                  ),
+                ),
+              ],
               SizedBox(
                 height: 30,
               ),
@@ -174,12 +216,7 @@ class LoginPage extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SignupPage(),
-                    ),
-                  );
+                  ref.read(authProvider.notifier).showSignup();
                 },
                 child: Text(
                   "Create an account",

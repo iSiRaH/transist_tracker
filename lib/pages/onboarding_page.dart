@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:transist_tracker/data/onboarding_data.dart';
 import 'package:transist_tracker/pages/onboarding_screens/welcome_page.dart';
-import 'package:transist_tracker/pages/signup_page.dart';
+import 'package:transist_tracker/providers/auth_provider.dart';
 import 'package:transist_tracker/utils/colors.dart';
 import 'package:transist_tracker/widgets/reusable/custom_button.dart';
 
-class OnboardingPage extends StatefulWidget {
+class OnboardingPage extends ConsumerStatefulWidget {
   const OnboardingPage({super.key});
 
   @override
-  State<OnboardingPage> createState() => _OnboardingPageState();
+  ConsumerState<OnboardingPage> createState() => _OnboardingPageState();
 }
 
-class _OnboardingPageState extends State<OnboardingPage> {
+class _OnboardingPageState extends ConsumerState<OnboardingPage> {
   final PageController _controller = PageController();
   bool isLastPage = false;
 
@@ -60,13 +61,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     right: 0,
                     child: isLastPage 
                     ? GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context, 
-                          MaterialPageRoute(
-                            builder: (context) => SignupPage()
-                          ),
-                        );
+                      onTap: () async {
+                        await ref.read(authProvider.notifier).completeOnboarding();
                       },
                       child: CustomButton(
                         description: isLastPage ? "Get Started" : "Next",
